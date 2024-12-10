@@ -13,6 +13,9 @@ builder.Services.AddControllers();
 // Build the web application
 var app = builder.Build();
 
+// Add middleware for exception handling
+app.UseExceptionHandler();
+
 // Routing
 app.UseRouting();
 
