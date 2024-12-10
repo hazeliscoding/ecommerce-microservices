@@ -1,11 +1,12 @@
-﻿using eCommerce.Core.Dto;
+﻿using AutoMapper;
+using eCommerce.Core.Dto;
 using eCommerce.Core.Entities;
 using eCommerce.Core.RepositoryContracts;
 using eCommerce.Core.ServiceContracts;
 
 namespace eCommerce.Core.Services;
 
-internal class UsersService(IUsersRepository usersRepository) : IUsersService
+internal class UsersService(IUsersRepository usersRepository, IMapper mapper) : IUsersService
 {
     public async Task<AuthenticationResponse?> Login(LoginRequest loginRequest)
     {
@@ -13,32 +14,17 @@ internal class UsersService(IUsersRepository usersRepository) : IUsersService
 
         return user == null
             ? null
-            : new AuthenticationResponse(user.UserId, user.Email, user.PersonName, user.Gender, "token", true);
+            : mapper.Map<AuthenticationResponse>(user) with { Success = true, Token = "token" };
     }
 
     public async Task<AuthenticationResponse?> Register(RegisterRequest registerRequest)
     {
-        var existingUser =
-            await usersRepository.GetUserByEmailAndPassword(registerRequest.Email, registerRequest.Password);
-
-        if (existingUser != null)
-            return null;
-
-        var user = new ApplicationUser
-        {
-            Email = registerRequest.Email,
-            Password = registerRequest.Password,
-            PersonName = registerRequest.PersonName,
-            Gender = registerRequest.Gender.ToString(),
-        };
+        var user = mapper.Map<ApplicationUser>(registerRequest);
 
         var newUser = await usersRepository.AddUser(user);
 
-        if (newUser != null)
-            return new AuthenticationResponse(newUser.UserId, newUser.Email, newUser.PersonName, newUser.Gender,
-                "token",
-                true);
-
-        return null;
+        return newUser != null
+            ? mapper.Map<AuthenticationResponse>(newUser) with { Success = true, Token = "token" }
+            : null;
     }
 }

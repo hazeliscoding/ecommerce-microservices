@@ -6,4 +6,8 @@ public record AuthenticationResponse(
     string? PersonName,
     string? Gender,
     string? Token,
-    bool Success);
+    bool Success)
+{
+    // Parameterless constructor for serialization
+    public AuthenticationResponse() : this(default, default, default, default, default, default) { }
+}
