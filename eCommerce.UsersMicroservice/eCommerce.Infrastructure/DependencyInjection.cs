@@ -1,4 +1,5 @@
 ﻿using eCommerce.Core.RepositoryContracts;
+using eCommerce.Infrastructure.DbContext;
 using eCommerce.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,8 @@ public static class DependencyInjection
         // TODO: Add services to the IoC container 
         
         services.AddSingleton<IUsersRepository, UsersRepository>();
+
+        services.AddTransient<DapperDbContext>();
 
         return services;
     }
