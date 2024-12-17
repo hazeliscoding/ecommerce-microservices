@@ -1,0 +1,27 @@
+﻿@ProductsMicroserviceAPI_HostAddress = https://localhost:7197
+### 
+GET {{ProductsMicroserviceAPI_HostAddress}}/api/products
+Accept: application/json
+
+###
+
+GET {{ProductsMicroserviceAPI_HostAddress}}/api/products/search/product-id/10d7b110-ecdb-4921-85a4-58a5d1b32bf4
+Accept: application/json
+
+###
+
+POST {{ProductsMicroserviceAPI_HostAddress}}/api/products
+
+###
+
+PUT {{ProductsMicroserviceAPI_HostAddress}}/api/products
+
+###
+
+DELETE {{ProductsMicroserviceAPI_HostAddress}}/api/products/{ProductID:guid}
+
+###
+
+GET {{ProductsMicroserviceAPI_HostAddress}}/api/products/search/PlayStation
+
+###
